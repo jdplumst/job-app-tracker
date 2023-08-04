@@ -14,9 +14,9 @@ app.use(
       mongoUrl: process.env.DATABASE_URL,
       collectionName: "Session"
     }),
-    secret: process.env.SESSION_SECRET,
+    secret: process.env.SESSION_SECRET as string,
     resave: false,
-    saveUninitialized: true,
+    saveUninitialized: false,
     cookie: {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
