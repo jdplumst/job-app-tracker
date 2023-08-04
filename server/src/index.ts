@@ -2,8 +2,10 @@ import express from "express";
 import "dotenv/config";
 import session from "express-session";
 import MongoStore from "connect-mongo";
+import authRouter from "./routes/authRouter";
 
 const app = express();
+app.use(express.json());
 
 app.use(
   session({
@@ -23,8 +25,6 @@ app.use(
   })
 );
 
-app.get("/", function (req, res) {
-  res.send("Hello World");
-});
+app.use("/api/auth", authRouter);
 
 app.listen(process.env.PORT);
