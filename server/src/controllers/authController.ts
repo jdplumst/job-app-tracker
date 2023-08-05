@@ -1,5 +1,5 @@
 import { ISignupRequest } from "../models/auth";
-import { Response } from "express";
+import { Request, Response } from "express";
 import { prisma } from "../prisma/db";
 import bcrypt from "bcrypt";
 
@@ -50,4 +50,12 @@ export const login = async (req: ISignupRequest, res: Response) => {
   }
   req.session.user = { userId: user.id, username: username };
   return res.status(200).json({ id: user.id, username: user.username });
+};
+
+export const logout = async (req: Request, res: Response) => {
+  req.session.destroy((err) => {
+    if (err) return res.status(400).json(err);
+    res.clearCookie("jat_sid");
+    return res.sendStatus(200);
+  });
 };
