@@ -10,7 +10,8 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main
-        className={`flex min-h-screen flex-col items-center justify-evenly`}>
+        className={`flex min-h-screen flex-col items-center justify-evenly`}
+      >
         <h1 className="text-8xl font-bold">Job Application Tracker</h1>
         <div className="flex gap-10">
           <button className="h-28 w-60 rounded-lg border-2 border-black bg-purple-500 p-4 text-4xl font-bold text-white hover:cursor-pointer hover:bg-purple-600">
