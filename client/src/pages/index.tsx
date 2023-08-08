@@ -1,4 +1,5 @@
 import Login from "@/components/Login";
+import Register from "@/components/Register";
 import { Form } from "@/types/global";
 import Head from "next/head";
 import { useState } from "react";
@@ -27,6 +28,7 @@ export default function Home() {
           Keep track of all your job applications
         </h2>
         {form === "login" && <Login changeForm={changeForm} />}
+        {form === "register" && <Register changeForm={changeForm} />}
       </main>
     </>
   );

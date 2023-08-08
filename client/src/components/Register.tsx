@@ -1,18 +1,18 @@
 import { Form } from "@/types/global";
 import { useState } from "react";
 
-interface ILoginProps {
+interface IRegisterProps {
   changeForm: (f: Form) => void;
 }
 
-export default function Login({ changeForm }: ILoginProps) {
+export default function Register({ changeForm }: IRegisterProps) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [disabled, setDisabled] = useState(false);
 
   return (
-    <div className="flex min-w-[25%] flex-col items-center rounded-lg border-2 p-8">
-      <h3 className="pb-5 text-center text-3xl font-semibold">Login</h3>
+    <div className="flex min-w-[25%] flex-col rounded-lg border-2 p-8">
+      <h3 className="pb-5 text-center text-3xl font-semibold">Signup</h3>
       <form className="flex w-full flex-col gap-5 pb-10">
         <div className="flex flex-col">
           <label htmlFor="username" className="text-xl font-medium">
@@ -38,14 +38,11 @@ export default function Login({ changeForm }: ILoginProps) {
           disabled={disabled}
           className="rounded-lg bg-white p-4 text-xl font-bold text-purple-500 hover:cursor-pointer hover:bg-slate-200"
         >
-          Login
+          Signup
         </button>
       </form>
-      <button
-        onClick={() => changeForm("register")}
-        className="mx-auto underline"
-      >
-        Don't have an account? Register here.
+      <button onClick={() => changeForm("login")} className="underline">
+        Already have an account? Login here.
       </button>
     </div>
   );
