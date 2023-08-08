@@ -3,9 +3,19 @@ import "dotenv/config";
 import session from "express-session";
 import MongoStore from "connect-mongo";
 import authRouter from "./routes/authRouter";
+import cors from "cors";
 
 const app = express();
 app.use(express.json());
+
+app.use(
+  cors({
+    origin: [
+      process.env.DEV_CLIENT_URL as string,
+      process.env.PROD_CLIENT_URL as string
+    ]
+  })
+);
 
 app.use(
   session({
