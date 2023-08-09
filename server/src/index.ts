@@ -3,6 +3,7 @@ import "dotenv/config";
 import session from "express-session";
 import MongoStore from "connect-mongo";
 import authRouter from "./routes/authRouter";
+import applicationRouter from "./routes/applicationRouter";
 import cors from "cors";
 
 const app = express();
@@ -37,5 +38,6 @@ app.use(
 );
 
 app.use("/api/auth", authRouter);
+app.use("/api/application", applicationRouter);
 
 app.listen(process.env.PORT);
