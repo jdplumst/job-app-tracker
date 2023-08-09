@@ -71,7 +71,7 @@ export default function Login({ changeForm }: ILoginProps) {
         onClick={() => changeForm("register")}
         className="mx-auto pt-5 underline"
       >
-        Don't have an account? Register here.
+        Don&apos;t have an account? Register here.
       </button>
     </div>
   );
