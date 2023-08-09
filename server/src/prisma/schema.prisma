@@ -19,7 +19,7 @@ model User {
 
 model Application {
   id                 String   @id @default(auto()) @map("_id") @db.ObjectId
-  date               DateTime @default(now())
+  date               DateTime
   title              String
   board              String
   postingURL         String
@@ -30,6 +30,15 @@ model Application {
   compensation       String?
   location           String
   notes              String?
+  status             Status
   authorId           String   @db.ObjectId
   author             User     @relation(fields: [authorId], references: [id])
+}
+
+enum Status {
+  Saved
+  Applied
+  Interview
+  Rejected
+  Offer
 }
