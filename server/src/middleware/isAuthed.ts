@@ -7,5 +7,7 @@ export default function isAuthed(
 ) {
   if (req.session.user) next();
   else
-    return res.status(401).send("You are not authorized to make this request");
+    return res
+      .status(401)
+      .json({ message: "You are not authorized to make this request" });
 }
