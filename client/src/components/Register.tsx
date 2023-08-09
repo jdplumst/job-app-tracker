@@ -61,7 +61,7 @@ export default function Register({ changeForm }: IRegisterProps) {
           Signup
         </button>
         {(error as ApiError) && (
-          <div className="mx-auto w-3/5 border-2 border-solid border-pink-600 bg-pink-500 p-2 text-center font-bold">
+          <div className="mx-auto w-full border-2 border-solid border-pink-600 bg-pink-500 p-2 text-center font-bold">
             {(error as ApiError).message}
           </div>
         )}
