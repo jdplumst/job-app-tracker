@@ -2,10 +2,10 @@ import { Auth } from "@/types/api";
 import { api } from "@/types/global";
 import { useMutation } from "react-query";
 
-export default function useLogin() {
+export default function useRegister() {
   const { mutate, isLoading, error } = useMutation(
     async ({ username, password }: Auth) => {
-      const response = await fetch(`${api}/auth/login`, {
+      const response = await fetch(`${api}/auth/signup`, {
         method: "POST",
         headers: {
           Accept: "application/json",
