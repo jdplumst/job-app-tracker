@@ -1,3 +1,5 @@
+import useLogin from "@/hooks/useLogin";
+import { ApiError } from "@/types/api";
 import { Form } from "@/types/global";
 import { useState } from "react";
 
@@ -10,10 +12,29 @@ export default function Login({ changeForm }: ILoginProps) {
   const [password, setPassword] = useState("");
   const [disabled, setDisabled] = useState(false);
 
+  const { mutate, isLoading, error } = useLogin();
+
+  const handleLogin = (e: React.FormEvent) => {
+    e.preventDefault();
+    setDisabled(true);
+    mutate(
+      { username, password },
+      {
+        onSuccess(data, variables, context) {
+          console.log("This is data: " + data);
+        },
+        onError(error, variables, context) {
+          console.log((error as ApiError).message);
+          setDisabled(false);
+        },
+      },
+    );
+  };
+
   return (
     <div className="flex min-w-[25%] flex-col items-center rounded-lg border-2 p-8">
       <h3 className="pb-5 text-center text-3xl font-semibold">Login</h3>
-      <form className="flex w-full flex-col gap-5 pb-10">
+      <form onSubmit={handleLogin} className="flex w-full flex-col gap-4">
         <div className="flex flex-col">
           <label htmlFor="username" className="text-xl font-medium">
             Username
@@ -40,10 +61,15 @@ export default function Login({ changeForm }: ILoginProps) {
         >
           Login
         </button>
+        {(error as ApiError) && (
+          <div className="mx-auto w-3/5 border-2 border-solid border-pink-600 bg-pink-500 p-2 text-center font-bold">
+            {(error as ApiError).message}
+          </div>
+        )}
       </form>
       <button
         onClick={() => changeForm("register")}
-        className="mx-auto underline"
+        className="mx-auto pt-5 underline"
       >
         Don't have an account? Register here.
       </button>

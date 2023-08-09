@@ -13,7 +13,7 @@ export default function Register({ changeForm }: IRegisterProps) {
   return (
     <div className="flex min-w-[25%] flex-col rounded-lg border-2 p-8">
       <h3 className="pb-5 text-center text-3xl font-semibold">Signup</h3>
-      <form className="flex w-full flex-col gap-5 pb-10">
+      <form className="flex w-full flex-col gap-5 pb-5">
         <div className="flex flex-col">
           <label htmlFor="username" className="text-xl font-medium">
             Username
@@ -41,7 +41,7 @@ export default function Register({ changeForm }: IRegisterProps) {
           Signup
         </button>
       </form>
-      <button onClick={() => changeForm("login")} className="underline">
+      <button onClick={() => changeForm("login")} className="pt-5 underline">
         Already have an account? Login here.
       </button>
     </div>
