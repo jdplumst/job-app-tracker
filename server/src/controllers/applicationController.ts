@@ -49,6 +49,11 @@ export const createApplication = async (
         "Application Status must be either: Saved, Applied, Interview, Rejected or Offer"
     });
   }
+  if (status !== "Saved" && !appliedDate) {
+    return res
+      .status(400)
+      .json({ message: "Must set application date for applied jobs" });
+  }
   const authorId = req.session.user?.userId!;
   const application = await prisma.application.create({
     data: {
