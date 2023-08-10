@@ -1,10 +1,18 @@
-import { Response } from "express";
+import { Request, Response } from "express";
 import {
   ICreateApplicationRequest,
   IUpdateApplicationRequest
 } from "../models/application";
 import { prisma } from "../prisma/db";
 import { ObjectId } from "mongodb";
+
+export const getAllApplications = async (req: Request, res: Response) => {
+  const userId = req.session.user?.userId;
+  const applications = await prisma.application.findMany({
+    where: { authorId: userId }
+  });
+  return res.status(200).json(applications);
+};
 
 export const createApplication = async (
   req: ICreateApplicationRequest,
