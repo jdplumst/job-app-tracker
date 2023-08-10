@@ -2,6 +2,7 @@ import express from "express";
 import {
   createApplication,
   getAllApplications,
+  getApplication,
   updateApplication
 } from "../controllers/applicationController";
 import isAuthed from "../middleware/isAuthed";
@@ -13,7 +14,7 @@ router.use(isAuthed);
 
 router.get("/", getAllApplications);
 
-router.get("/:id");
+router.get("/:id", getApplication);
 
 router.post("/", createApplication);
 

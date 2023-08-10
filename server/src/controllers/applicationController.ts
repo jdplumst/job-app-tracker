@@ -36,6 +36,46 @@ export const getAllApplications = async (req: Request, res: Response) => {
   return res.status(200).json(applications);
 };
 
+export const getApplication = async (req: Request, res: Response) => {
+  const appId = req.params.id;
+  const userId = req.session.user?.userId;
+  const { title, board, company, location, status } =
+    req.query as IGetAllApplicationsQuery;
+  if (!ObjectId.isValid(appId)) {
+    return res
+      .status(400)
+      .json({ message: "Must enter a valid job application id" });
+  }
+  if (
+    status &&
+    status !== "Saved" &&
+    status !== "Applied" &&
+    status !== "Interview" &&
+    status !== "Rejected" &&
+    status !== "Offer"
+  ) {
+    return res.status(400).json({
+      message:
+        "Application Status must be either: Saved, Applied, Interview, Rejected or Offer"
+    });
+  }
+  const application = await prisma.application.findFirst({
+    where: {
+      id: appId,
+      authorId: userId,
+      title: title,
+      board: board,
+      company: company,
+      location: location,
+      status: status
+    }
+  });
+  if (!application) {
+    return res.status(404).json({ message: "Application not found" });
+  }
+  return res.status(200).json(application);
+};
+
 export const createApplication = async (
   req: ICreateApplicationRequest,
   res: Response
