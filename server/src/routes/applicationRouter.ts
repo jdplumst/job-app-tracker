@@ -1,11 +1,17 @@
 import express from "express";
-import { createApplication } from "../controllers/applicationController";
+import {
+  createApplication,
+  updateApplication
+} from "../controllers/applicationController";
 import isAuthed from "../middleware/isAuthed";
 
 const router = express.Router();
 
+// Require auth
 router.use(isAuthed);
 
 router.post("/", createApplication);
+
+router.put("/:id", updateApplication);
 
 export default router;
