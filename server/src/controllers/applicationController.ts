@@ -12,6 +12,7 @@ export const getAllApplications = async (req: Request, res: Response) => {
   const { title, board, company, location, status } =
     req.query as IGetAllApplicationsQuery;
   if (
+    status &&
     status !== "Saved" &&
     status !== "Applied" &&
     status !== "Interview" &&
