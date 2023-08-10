@@ -13,6 +13,8 @@ router.use(isAuthed);
 
 router.get("/", getAllApplications);
 
+router.get("/:id");
+
 router.post("/", createApplication);
 
 router.put("/:id", updateApplication);

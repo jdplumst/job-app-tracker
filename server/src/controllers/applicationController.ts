@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import {
   ICreateApplicationRequest,
+  IGetAllApplicationsQuery,
   IUpdateApplicationRequest
 } from "../models/application";
 import { prisma } from "../prisma/db";
@@ -8,8 +9,29 @@ import { ObjectId } from "mongodb";
 
 export const getAllApplications = async (req: Request, res: Response) => {
   const userId = req.session.user?.userId;
+  const { title, board, company, location, status } =
+    req.query as IGetAllApplicationsQuery;
+  if (
+    status !== "Saved" &&
+    status !== "Applied" &&
+    status !== "Interview" &&
+    status !== "Rejected" &&
+    status !== "Offer"
+  ) {
+    return res.status(400).json({
+      message:
+        "Application Status must be either: Saved, Applied, Interview, Rejected or Offer"
+    });
+  }
   const applications = await prisma.application.findMany({
-    where: { authorId: userId }
+    where: {
+      authorId: userId,
+      title: title,
+      board: board,
+      company: company,
+      location: location,
+      status: status
+    }
   });
   return res.status(200).json(applications);
 };

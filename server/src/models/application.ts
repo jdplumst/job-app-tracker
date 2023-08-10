@@ -1,6 +1,14 @@
 import { Status } from "@prisma/client";
 import { Request } from "express";
 
+export interface IGetAllApplicationsQuery {
+  title?: string;
+  board?: string;
+  company?: string;
+  location?: string;
+  status?: Status;
+}
+
 interface ICreateApplicationBody {
   appliedDate: Date;
   title: string;
