@@ -220,3 +220,21 @@ export const updateApplication = async (
   });
   return res.status(200).json(update);
 };
+
+export const deleteApplication = async (req: Request, res: Response) => {
+  const appId = req.params.id;
+  const userId = req.session.user?.userId;
+  if (!ObjectId.isValid(appId)) {
+    return res
+      .status(400)
+      .json({ message: "Must enter a valid job application id" });
+  }
+  const application = await prisma.application.deleteMany({
+    where: { id: appId, authorId: userId }
+  });
+
+  if (application.count === 0) {
+    return res.status(404).json({ message: "Application does not exist" });
+  }
+  return res.sendStatus(200);
+};

@@ -1,6 +1,7 @@
 import express from "express";
 import {
   createApplication,
+  deleteApplication,
   getAllApplications,
   getApplication,
   updateApplication
@@ -19,5 +20,7 @@ router.get("/:id", getApplication);
 router.post("/", createApplication);
 
 router.put("/:id", updateApplication);
+
+router.delete("/:id", deleteApplication);
 
 export default router;
