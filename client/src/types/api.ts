@@ -11,3 +11,28 @@ export interface User {
   id: string;
   username: string;
 }
+
+export interface Application {
+  id: string;
+  appliedDate: Date;
+  title: string;
+  board: string;
+  postingURL: string;
+  company: string;
+  companyDescription: string;
+  jobDescription: string;
+  qualifications: string;
+  compensation?: string;
+  location: string;
+  notes?: string;
+  status: Status;
+  authorId: string;
+}
+
+enum Status {
+  Saved = "Saved",
+  Applied = "Applied",
+  Interview = "Interview",
+  Rejected = "Rejected",
+  Offer = "Offer",
+}

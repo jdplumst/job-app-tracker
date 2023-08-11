@@ -1,12 +1,12 @@
-import { User } from "@/types/api";
+import { Application, User } from "@/types/api";
 import { api } from "@/types/global";
 import { useQuery } from "react-query";
 
-export default function useGetApplications(user: User) {
-  const { data, isLoading, error } = useQuery(
+export default function useGetApplications(user: User | undefined) {
+  const { data, isLoading, error } = useQuery<Application[]>(
     "applications",
-    async (id) => {
-      const response = await fetch(`${api}/applications/${user.id}`, {
+    async () => {
+      const response = await fetch(`${api}/applications`, {
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
@@ -17,7 +17,7 @@ export default function useGetApplications(user: User) {
         const error = await response.json();
         throw Error(error.message);
       }
-      return;
+      return response.json();
     },
     { enabled: !!user },
   );

@@ -1,8 +1,9 @@
+import { User } from "@/types/api";
 import { api } from "@/types/global";
 import { useQuery } from "react-query";
 
 export default function useSession() {
-  const { data, isLoading } = useQuery("user", async () => {
+  const { data, isLoading } = useQuery<User>("user", async () => {
     const response = await fetch(`${api}/user`, {
       headers: {
         Accept: "application/json",
