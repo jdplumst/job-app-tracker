@@ -2,7 +2,7 @@ import { Application, User } from "@/types/api";
 import { api } from "@/types/global";
 import { useQuery } from "react-query";
 
-export default function useGetApplications(user: User | undefined) {
+export default function useGetApps(user: User | undefined) {
   const { data, isLoading, error } = useQuery<Application[]>(
     "applications",
     async () => {

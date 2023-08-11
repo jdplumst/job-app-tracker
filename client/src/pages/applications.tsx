@@ -1,9 +1,9 @@
 import LoadingSpinner from "@/components/LoadingSpinner";
-import useGetApplications from "@/hooks/useGetApplications";
 import useSession from "@/hooks/useSession";
 import Head from "next/head";
 import Router from "next/router";
 import moment from "moment";
+import useGetApps from "@/hooks/useGetApps";
 
 export default function Applications() {
   const { data: user, isLoading: userLoading } = useSession();
@@ -15,7 +15,7 @@ export default function Applications() {
     data: applications,
     isLoading: applicationLoading,
     error,
-  } = useGetApplications(user);
+  } = useGetApps(user);
 
   if (!user || userLoading)
     return (
