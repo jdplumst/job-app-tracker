@@ -1,6 +1,24 @@
+import LoadingSpinner from "@/components/LoadingSpinner";
+import useGetApplications from "@/hooks/useGetApplications";
+import useSession from "@/hooks/useSession";
 import Head from "next/head";
+import Router from "next/router";
 
 export default function Applications() {
+  const { data: user, isLoading: userLoading } = useSession();
+  if (!user && !userLoading) {
+    Router.push("/");
+  }
+
+  const { data, isLoading, error } = useGetApplications(user);
+
+  if (userLoading)
+    return (
+      <div className="flex h-screen w-screen items-center justify-center">
+        <LoadingSpinner />
+      </div>
+    );
+
   return (
     <>
       <Head>
