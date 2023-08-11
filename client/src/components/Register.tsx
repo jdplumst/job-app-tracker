@@ -2,6 +2,7 @@ import useRegister from "@/hooks/useRegister";
 import { ApiError } from "@/types/api";
 import { Form } from "@/types/global";
 import { useState } from "react";
+import LoadingSpinner from "./LoadingSpinner";
 
 interface IRegisterProps {
   changeForm: (f: Form) => void;
@@ -10,21 +11,16 @@ interface IRegisterProps {
 export default function Register({ changeForm }: IRegisterProps) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [disabled, setDisabled] = useState(false);
 
   const { mutate, isLoading, error } = useRegister();
 
   const handleRegister = (e: React.FormEvent) => {
     e.preventDefault();
-    setDisabled(true);
     mutate(
       { username, password },
       {
         onSuccess(data, variables, context) {
           console.log(data);
-        },
-        onError(error, variables, context) {
-          setDisabled(false);
         },
       },
     );
@@ -50,15 +46,16 @@ export default function Register({ changeForm }: IRegisterProps) {
           </label>
           <input
             value={password}
+            type="password"
             onChange={(e) => setPassword(e.target.value)}
             className="rounded-lg border-0 p-2 text-black outline-0"
           />
         </div>
         <button
-          disabled={disabled}
+          disabled={isLoading}
           className="rounded-lg bg-white p-4 text-xl font-bold text-purple-500 hover:cursor-pointer hover:bg-slate-200"
         >
-          Signup
+          {isLoading ? <LoadingSpinner /> : "Signup"}
         </button>
         {(error as ApiError) && (
           <div className="mx-auto w-full border-2 border-solid border-pink-600 bg-pink-500 p-2 text-center font-bold">

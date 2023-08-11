@@ -2,6 +2,7 @@ import useLogin from "@/hooks/useLogin";
 import { ApiError } from "@/types/api";
 import { Form } from "@/types/global";
 import { useState } from "react";
+import LoadingSpinner from "./LoadingSpinner";
 
 interface ILoginProps {
   changeForm: (f: Form) => void;
@@ -10,22 +11,16 @@ interface ILoginProps {
 export default function Login({ changeForm }: ILoginProps) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [disabled, setDisabled] = useState(false);
 
   const { mutate, isLoading, error } = useLogin();
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
-    setDisabled(true);
     mutate(
       { username, password },
       {
         onSuccess(data, variables, context) {
           console.log("This is data: " + data);
-        },
-        onError(error, variables, context) {
-          console.log((error as ApiError).message);
-          setDisabled(false);
         },
       },
     );
@@ -51,15 +46,16 @@ export default function Login({ changeForm }: ILoginProps) {
           </label>
           <input
             value={password}
+            type="password"
             onChange={(e) => setPassword(e.target.value)}
             className="rounded-lg border-0 p-2 text-black outline-0"
           />
         </div>
         <button
-          disabled={disabled}
+          disabled={isLoading}
           className="rounded-lg bg-white p-4 text-xl font-bold text-purple-500 hover:cursor-pointer hover:bg-slate-200"
         >
-          Login
+          {isLoading ? <LoadingSpinner /> : "Login"}
         </button>
         {(error as ApiError) && (
           <div className="mx-auto w-full border-2 border-solid border-pink-600 bg-pink-500 p-2 text-center font-bold">
