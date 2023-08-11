@@ -31,7 +31,7 @@ export const signup = async (req: ISignupRequest, res: Response) => {
   const user = await prisma.user.create({
     data: { username: username, passwordHash: hash }
   });
-  req.session.user = { userId: user.id, username: user.username };
+  req.session.user = { id: user.id, username: user.username };
   return res.status(200).json({ id: user.id, username: user.username });
 };
 
@@ -48,7 +48,7 @@ export const login = async (req: ISignupRequest, res: Response) => {
   if (!pwdMatch) {
     return res.status(401).send({ message: "Incorrect password" });
   }
-  req.session.user = { userId: user.id, username: username };
+  req.session.user = { id: user.id, username: username };
   return res.status(200).json({ id: user.id, username: user.username });
 };
 

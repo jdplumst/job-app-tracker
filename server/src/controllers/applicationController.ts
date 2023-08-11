@@ -8,7 +8,7 @@ import { prisma } from "../prisma/db";
 import { ObjectId } from "mongodb";
 
 export const getAllApplications = async (req: Request, res: Response) => {
-  const userId = req.session.user?.userId;
+  const userId = req.session.user?.id;
   const { title, board, company, location, status } =
     req.query as IGetAllApplicationsQuery;
   if (
@@ -39,7 +39,7 @@ export const getAllApplications = async (req: Request, res: Response) => {
 
 export const getApplication = async (req: Request, res: Response) => {
   const appId = req.params.id;
-  const userId = req.session.user?.userId;
+  const userId = req.session.user?.id;
   const { title, board, company, location, status } =
     req.query as IGetAllApplicationsQuery;
   if (!ObjectId.isValid(appId)) {
@@ -128,7 +128,7 @@ export const createApplication = async (
       .status(400)
       .json({ message: "Must set application date for applied jobs" });
   }
-  const authorId = req.session.user?.userId!;
+  const authorId = req.session.user?.id!;
   const application = await prisma.application.create({
     data: {
       appliedDate,
@@ -173,7 +173,7 @@ export const updateApplication = async (
     notes,
     status
   } = req.body;
-  const userId = req.session.user?.userId;
+  const userId = req.session.user?.id;
   const application = await prisma.application.findFirst({
     where: { id: appId, authorId: userId }
   });
@@ -223,7 +223,7 @@ export const updateApplication = async (
 
 export const deleteApplication = async (req: Request, res: Response) => {
   const appId = req.params.id;
-  const userId = req.session.user?.userId;
+  const userId = req.session.user?.id;
   if (!ObjectId.isValid(appId)) {
     return res
       .status(400)
