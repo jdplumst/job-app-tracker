@@ -15,7 +15,7 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>Budget App</title>
+        <title>Job Application Tracker</title>
         <meta name="description" content="Job Application Tracker" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />

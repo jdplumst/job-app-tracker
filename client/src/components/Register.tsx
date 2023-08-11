@@ -3,6 +3,7 @@ import { ApiError } from "@/types/api";
 import { Form } from "@/types/global";
 import { useState } from "react";
 import LoadingSpinner from "./LoadingSpinner";
+import Router from "next/router";
 
 interface IRegisterProps {
   changeForm: (f: Form) => void;
@@ -20,7 +21,7 @@ export default function Register({ changeForm }: IRegisterProps) {
       { username, password },
       {
         onSuccess(data, variables, context) {
-          console.log(data);
+          Router.push("/applications");
         },
       },
     );
