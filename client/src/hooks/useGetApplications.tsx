@@ -6,7 +6,7 @@ export default function useGetApplications(user: User | undefined) {
   const { data, isLoading, error } = useQuery<Application[]>(
     "applications",
     async () => {
-      const response = await fetch(`${api}/applications`, {
+      const response = await fetch(`${api}/application`, {
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
