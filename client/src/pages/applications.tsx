@@ -1,7 +1,6 @@
 import LoadingSpinner from "@/components/LoadingSpinner";
 import useGetApplications from "@/hooks/useGetApplications";
 import useSession from "@/hooks/useSession";
-import { User } from "@/types/api";
 import Head from "next/head";
 import Router from "next/router";
 
@@ -24,6 +23,16 @@ export default function Applications() {
       </div>
     );
 
+  if (!error) {
+    return (
+      <div className="flex h-screen w-screen items-center justify-center bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500">
+        <div className="font-medium">
+          Something went wrong. Please try again later.
+        </div>
+      </div>
+    );
+  }
+
   return (
     <>
       <Head>
@@ -34,7 +43,7 @@ export default function Applications() {
       </Head>
       <main className="flex min-h-screen min-w-full flex-col items-center gap-8 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 p-10 text-white">
         <h1 className="text-center text-5xl font-bold">
-          {(user as User).username} Applications
+          {user.username}&apos;s Applications
         </h1>
       </main>
     </>
