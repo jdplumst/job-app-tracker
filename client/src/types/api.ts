@@ -14,7 +14,7 @@ export interface User {
 
 export interface Application {
   id: string;
-  appliedDate: Date;
+  appliedDate?: Date;
   title: string;
   board: string;
   postingURL: string;
