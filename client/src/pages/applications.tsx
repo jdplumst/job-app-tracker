@@ -48,7 +48,10 @@ export default function Applications() {
         </h1>
         <div className="flex min-w-[75%] flex-col gap-5 sm:min-w-[50%]">
           {applications?.map((a) => (
-            <div className="flex flex-col rounded-lg border-2 p-4 sm:text-xl">
+            <div
+              key={a.id}
+              className="flex flex-col rounded-lg border-2 p-4 sm:text-xl"
+            >
               <div className="font-bold">
                 {a.title} · {a.company}
               </div>
