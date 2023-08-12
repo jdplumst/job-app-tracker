@@ -2,7 +2,7 @@ import LoadingSpinner from "@/components/LoadingSpinner";
 import useSession from "@/hooks/useSession";
 import Head from "next/head";
 import Router from "next/router";
-import moment, { ISO_8601 } from "moment";
+import moment from "moment";
 import useGetApps from "@/hooks/useGetApps";
 import useCreateApp from "@/hooks/useCreateApp";
 import { useState } from "react";
@@ -249,7 +249,7 @@ export default function Applications() {
                       className="w-full p-2 text-black outline-none"
                     >
                       {Object.values(Status).map((s) => (
-                        <option value={s}>{s}</option>
+                        <option key={s} value={s}>{s}</option>
                       ))}
                     </select>
                   </div>
