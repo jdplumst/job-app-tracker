@@ -14,7 +14,7 @@ export interface User {
 
 export interface Application {
   id: string;
-  appliedDate?: Date;
+  appliedDate?: Date | string;
   title: string;
   board: string;
   postingURL: string;
@@ -29,7 +29,7 @@ export interface Application {
   authorId: string;
 }
 
-enum Status {
+export enum Status {
   Saved = "Saved",
   Applied = "Applied",
   Interview = "Interview",
