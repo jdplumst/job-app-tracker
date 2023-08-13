@@ -8,6 +8,8 @@ import useCreateApp from "@/hooks/useCreateApp";
 import { useState } from "react";
 import Modal from "@/components/Modal";
 import { ApiError, Application, Status } from "@/types/api";
+import { GrUpdate } from "react-icons/gr";
+import useUpdateApp from "@/hooks/useUpdateApp";
 
 const defaultApplication = {
   id: "",
@@ -28,6 +30,7 @@ const defaultApplication = {
 
 export default function Applications() {
   const [createModal, setCreateModal] = useState(false);
+  const [updateModal, setUpdateModal] = useState(false);
   const [application, setApplication] =
     useState<Application>(defaultApplication);
 
@@ -47,6 +50,12 @@ export default function Applications() {
     isLoading: createLoading,
     error: createError,
   } = useCreateApp();
+
+  const {
+    mutate: updateApp,
+    isLoading: updateLoading,
+    error: updateError,
+  } = useUpdateApp();
 
   if (!user || userLoading)
     return (
@@ -92,7 +101,7 @@ export default function Applications() {
             {applications?.map((a) => (
               <div
                 key={a.id}
-                className="flex flex-col rounded-lg border-2 p-4 sm:text-xl"
+                className="relative flex flex-col rounded-lg border-2 p-4 sm:text-xl"
               >
                 <div className="font-bold">
                   {a.title} · {a.company}
@@ -131,15 +140,32 @@ export default function Applications() {
                     <div>{a.notes}</div>
                   </>
                 )}
+                <button
+                  onClick={() => {
+                    console.log(a.appliedDate);
+                    setApplication({
+                      ...a,
+                      appliedDate: moment(a.appliedDate).format(
+                        "YYYY-MM-DDTHH:mm",
+                      ),
+                    });
+                    setUpdateModal(true);
+                  }}
+                  className="absolute bottom-4 right-10"
+                >
+                  <GrUpdate />
+                </button>
               </div>
             ))}
           </div>
         </div>
-        {createModal && (
+        {(createModal || updateModal) && (
           <Modal>
             <form>
               <h3 className="pb-5 text-center text-3xl font-bold">
-                Add New Job Application
+                {createModal
+                  ? "Add New Job Application"
+                  : "Update Job Application"}
               </h3>
               <div className="flex flex-col gap-4">
                 <div className="grid grid-cols-2 gap-5">
@@ -249,7 +275,9 @@ export default function Applications() {
                       className="w-full p-2 text-black outline-none"
                     >
                       {Object.values(Status).map((s) => (
-                        <option key={s} value={s}>{s}</option>
+                        <option key={s} value={s}>
+                          {s}
+                        </option>
                       ))}
                     </select>
                   </div>
@@ -361,43 +389,80 @@ export default function Applications() {
                   onClick={(e) => {
                     e.preventDefault();
                     setCreateModal(false);
+                    setUpdateModal(false);
                     setApplication(defaultApplication);
                   }}
                   className="w-40 rounded-lg border-2 border-white bg-black p-2 font-bold hover:bg-slate-900"
                 >
                   Cancel
                 </button>
-                <button
-                  disabled={createLoading}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    createApp(
-                      {
-                        ...application,
-                        appliedDate: isNaN(
-                          Date.parse(application.appliedDate as string),
-                        )
-                          ? undefined
-                          : moment(
-                              new Date(application.appliedDate as string),
-                            ).format(),
-                      },
-                      {
-                        onSuccess(data, variables, context) {
-                          setCreateModal(false);
-                          setApplication(defaultApplication);
+                {createModal && (
+                  <button
+                    disabled={createLoading}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      createApp(
+                        {
+                          ...application,
+                          appliedDate: isNaN(
+                            Date.parse(application.appliedDate as string),
+                          )
+                            ? undefined
+                            : moment(
+                                new Date(application.appliedDate as string),
+                              ).format(),
                         },
-                      },
-                    );
-                  }}
-                  className="w-40 rounded-lg bg-green-500 p-2 font-bold hover:bg-green-600"
-                >
-                  Add Application
-                </button>
+                        {
+                          onSuccess(data, variables, context) {
+                            setCreateModal(false);
+                            setApplication(defaultApplication);
+                          },
+                        },
+                      );
+                    }}
+                    className="w-40 rounded-lg bg-green-500 p-2 font-bold hover:bg-green-600"
+                  >
+                    Add Application
+                  </button>
+                )}
+                {updateModal && (
+                  <button
+                    disabled={updateLoading}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      updateApp(
+                        {
+                          ...application,
+                          appliedDate: isNaN(
+                            Date.parse(application.appliedDate as string),
+                          )
+                            ? undefined
+                            : moment(
+                                new Date(application.appliedDate as string),
+                              ).format(),
+                        },
+                        {
+                          onSuccess(data, variables, context) {
+                            setUpdateModal(false);
+                            setApplication(defaultApplication);
+                          },
+                        },
+                      );
+                    }}
+                    className="w-40 rounded-lg bg-green-500 p-2 font-bold hover:bg-green-600"
+                  >
+                    Update Application
+                  </button>
+                )}
               </div>
               {(createError as ApiError) && (
                 <div className="text-center text-red-500">
                   {(createError as ApiError).message}
+                </div>
+              )}
+              {(updateError as ApiError) && (
+                <div className="text-center text-red-500">
+                  {(updateError as ApiError).message}
                 </div>
               )}
             </form>
